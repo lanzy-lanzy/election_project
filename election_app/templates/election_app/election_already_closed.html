@@ -1,0 +1,9 @@
+{% extends 'election_app/base.html' %}
+{% block title %}Election Already Closed{% endblock %}
+{% block content %}
+    <div class="already-closed-container">
+        <h2 class="already-closed-title">Election Already Closed</h2>
+        <p class="already-closed-message">The election "{{ election.title }}" has already been closed.</p>
+        <a class="back-link" href="{% url 'election_list' %}">Back to Election List</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'election_app/base.html' %}
+{% block title %}Election List{% endblock %}
+{% block nav%} {% endblock %}
+{% block content %}
+    <style>
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-size: 18px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-size: 18px;
+            color: #d35400;
+            font-style: italic;
+            margin-top: 20px;
+        }
+    </style>
+    <div class="container">
+        <h1>Vote for {{ election.title }}</h1>
+        {% if election.is_voting_open %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="{{ vote_form.candidate.id_for_label }}">Select a Candidate:</label>
+            {{ vote_form.candidate }}
+            <button type="submit">Vote</button>
+        </form>
+        {% else %}
+        <p>Voting for this election has ended.</p>
+    {% endif %}
+    </div>
+{% endblock %}

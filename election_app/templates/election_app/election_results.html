@@ -1,0 +1,71 @@
+{% extends 'election_app/base.html' %}
+{% block title %}Election Results{% endblock %}
+{% block content %}
+<style>
+    /* Base styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .results-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 600px;
+        margin: 50px auto;
+        text-align: center;
+    }
+    
+    .results-title {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .winner-text {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #333333;
+    }
+    
+    .results-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .result-item {
+        border-top: 1px solid #eeeeee;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .candidate-name {
+        font-size: 18px;
+    }
+    
+    .vote-count {
+        font-size: 16px;
+        color: #666666;
+    }
+    
+</style>
+<main class="results-container">
+    <header class="results-header">
+        <h1 class="results-title">Results for {{ election.title }}</h1>
+    </header>
+    <p class="winner-text">Winner: {% if winner %}{{ winner.name }}{% else %}No winner{% endif %}</p>
+    <ul class="results-list">
+        {% for result in results %}
+            <li class="result-item">
+                <p class="candidate-name">{{ result.candidate.name }}</p>
+                <p class="vote-count">{{ result.vote_count }} votes</p>
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ election.title }} Details</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3498db;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ffffff;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        a.button {
+            display: block;
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 0;
+            border: none;
+            border-radius: 3px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        a.button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        span {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ election.title }} Details</h1>
+        <p>Candidates:</p>
+        <ul>
+            {% for candidate in candidates %}
+                <li>{{ candidate.name }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'vote' election.id %}" class="button">Vote</a>
+    </div>
+</body>
+</html>

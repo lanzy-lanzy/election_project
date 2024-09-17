@@ -1,0 +1,127 @@
+{% extends 'election_app/base.html' %}
+{% block title %}Election List{% endblock %}
+{% block create %}{% if user.is_authenticated and user.is_superuser %}<li><a href="{% url 'create_election' %}">Create Election</a></li>{% endif %}{% endblock %}
+{% block content %}
+<style>
+    /* Reset some default styling */
+    body, h1, ul, li, a {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    
+    /* Apply styles to the header */
+    header {
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        padding: 1em 0;
+    }
+    
+    /* Style the main content area */
+    main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2em;
+    }
+    
+    /* Style the election list */
+    .election-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .election-item {
+        margin-bottom: 1.5em;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        padding: 1.5em;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+    }
+    
+    .election-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Style the election links */
+    .election-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.2s;
+    }
+    
+    .election-link:hover {
+        color: #2980b9;
+    }
+
+    /* Style the vote button */
+    .vote-button {
+        display: inline-block;
+        padding: 0.5em 1em;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+
+    .vote-button:hover {
+        background-color: #2980b9;
+    }
+
+    /* Style the closed message */
+    .closed-message {
+        color: #d35400;
+        font-style: italic;
+    }
+</style>        
+<main>
+    <header>
+        <h1>List of Elections</h1>
+    </header>
+    <ul class="election-list">
+        {% if elections %}
+            {% with first_election=elections.first %}
+                {% for election in elections %}
+                    {% if forloop.first or election.title != first_election.title %}
+                        <li class="election-item">
+                            <h2>
+                                {% if election.is_voting_open %}
+                                    <a class="election-link" href="{% url 'vote' election.pk %}">
+                                        {{ election.title }}
+                                    </a>
+                                {% else %}
+                                    {{ election.title }}
+                                {% endif %}
+                            </h2>
+                            {% if election.is_voting_open %}
+                                {% if user.is_authenticated and user.is_superuser %}
+                                    <a class="vote-button" href="{% url 'election_results' election.pk %}">View Results</a>
+                                    <a class="vote-button" href="{% url 'close_election' election.pk %}">Close Election</a>
+                                    <a class="vote-button" href="{% url 'delete_election' election.pk %}">Delete Election</a>
+                                {% else %}
+                                    <a class="vote-button" href="{% url 'vote' election.pk %}">Vote Now</a>
+                                {% endif %}
+                            {% else %}
+                                <p class="closed-message">Voting is now closed</p>
+                                {% if user.is_authenticated and user.is_superuser %}
+                                    <a class="vote-button" href="{% url 'election_results' election.pk %}">View Results</a>
+                                    <a class="vote-button" href="{% url 'delete_election' election.pk %}">Delete Election</a>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        {% else %}
+            <p>No elections available.</p>
+        {% endif %}
+    </ul>
+</main>
+{% endblock %}

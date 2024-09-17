@@ -1,0 +1,73 @@
+{% extends 'election_app/base.html' %}
+{% block title %}Delete Election{% endblock %}
+{% block content %}
+<style>
+    /* Base styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .delete-election-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        width: 400px;
+        margin: 50px auto;
+    }
+    
+    .delete-election-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .delete-election-message {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333333;
+    }
+    
+    .delete-election-form {
+        margin-bottom: 20px;
+    }
+    
+    .confirm-delete-button {
+        background-color: #e74c3c;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .confirm-delete-button:hover {
+        background-color: #c0392b;
+    }
+    
+    .cancel-link {
+        color: #3498db;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    
+    .cancel-link:hover {
+        text-decoration: underline;
+    }
+    
+</style>
+    <div class="delete-election-container">
+        <h2 class="delete-election-title">Delete Election</h2>
+        <p class="delete-election-message">Are you sure you want to delete the election "{{ election.title }}"?</p>
+        <form class="delete-election-form" method="post">
+            {% csrf_token %}
+            <button class="confirm-delete-button" type="submit">Confirm Delete</button>
+        </form>
+        <a class="cancel-link" href="{% url 'election_list' %}">Cancel</a>
+    </div>
+{% endblock %}
